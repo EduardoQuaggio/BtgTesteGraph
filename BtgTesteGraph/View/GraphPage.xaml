@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
+             xmlns:viewModels="clr-namespace:BtgTesteGraph.ViewModel"
+             x:DataType="viewModels:GraphViewModel"
+             x:Class="BtgTesteGraph.View.GraphPage"
+             Title="Gráfico Movimento Browniano">
+    <ContentPage.BindingContext>
+        <viewModels:GraphViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid ColumnDefinitions="7*,3*">
+
+        <Border BackgroundColor="White" 
+                Grid.Row="1"
+                Grid.Column="0"
+                x:Name="graphView"
+                Margin="20">
+            <skia:SKCanvasView Grid.Column="1" 
+                    Grid.Row="0"
+                    PaintSurface="SKCanvasView_PaintSurface"/>
+        </Border>
+        
+        <StackLayout Orientation="Vertical"
+                     Grid.Column="2"
+                     Margin="20"
+                     Spacing="10">
+            <Border BackgroundColor="White">
+                <Grid ColumnDefinitions="Auto, *"
+                      Margin="10">
+                    <Label Grid.Column="0"
+                           Text="Inital Price:"
+                           FontAttributes="Bold" 
+                           TextColor="Black"
+                           VerticalOptions="Center"/>
+                    <Entry Grid.Column="1"
+                           TextColor="Black"
+                           Placeholder="Write initial price"     
+                           Text="{Binding InitialPrice}"/>
+                </Grid>
+            </Border>
+            
+            <Border BackgroundColor="White">
+                <Grid ColumnDefinitions="Auto, *, Auto"
+                      ColumnSpacing="10"
+                      Margin="10">
+                    <Label Grid.Column="0"
+                           Text="Average volatility (%):"
+                           FontAttributes="Bold" 
+                           TextColor="Black"
+                           VerticalOptions="Center"/>
+                    <Slider  Grid.Column="1"
+                             Maximum="100"
+                             MaximumTrackColor="Transparent"
+                             MinimumTrackColor="Gray"
+                             FlowDirection="LeftToRight"
+                             ValueChanged="SliderVolatility_ValueChanged" />      
+
+                    <Label Grid.Column="2"
+                           Text="{Binding Volatility}"
+                           FontAttributes="Bold" 
+                           TextColor="Black"
+                           VerticalOptions="Center"/>
+                </Grid>
+            </Border>
+            
+            <Border BackgroundColor="White">
+                <Grid ColumnDefinitions="Auto, *, Auto"
+                      ColumnSpacing="10"
+                      Margin="10">
+                    <Label Grid.Column="0"
+                           Text="Average return (%):"
+                           FontAttributes="Bold" 
+                           TextColor="Black"
+                           VerticalOptions="Center"/>
+                    
+                    <Slider  Grid.Column="1"
+                             Maximum="100"
+                             MaximumTrackColor="Transparent"
+                             MinimumTrackColor="Gray"
+                             FlowDirection="LeftToRight"
+                             ValueChanged="SliderMedia_ValueChanged" />
+
+                    <Label Grid.Column="2"
+                           Text="{Binding Media}"
+                           FontAttributes="Bold" 
+                           TextColor="Black"
+                           VerticalOptions="Center"/>      
+                </Grid>
+            </Border>
+            
+            <Border BackgroundColor="White">
+                <Grid ColumnDefinitions="Auto, *"
+                      Margin="10">
+                    <Label Grid.Column="0"
+                           Text="Time (days):"
+                           FontAttributes="Bold" 
+                           TextColor="Black"
+                           VerticalOptions="Center"/>
+                    <Entry Grid.Column="1"
+                           TextColor="Black"
+                           Placeholder="Write time" 
+                           Text="{Binding Time}"/>
+                </Grid>
+            </Border>
+            
+            <Border BackgroundColor="White">
+                <Grid ColumnDefinitions="Auto, *, Auto"
+                      Margin="10">
+                    <Label Grid.Column="0"
+                           Text="Simulations:"
+                           FontAttributes="Bold" 
+                           TextColor="Black"
+                           VerticalOptions="Center"/>
+                    <Entry Grid.Column="1"
+                           TextColor="Black"
+                           Placeholder="Write no. simulations" 
+                           Text="{Binding NumberSimulation}"/>
+                </Grid>
+            </Border>
+
+            <Border BackgroundColor="OrangeRed"
+                    IsVisible="{Binding SimulationInvalid}">
+                <Grid RowDefinitions="Auto, *"
+                      Margin="10">
+                    <Label Grid.Row="0"
+                           Text="Error on save"
+                           FontAttributes="Bold" 
+                           TextColor="White"
+                           VerticalOptions="Center"/>
+
+                    <Label Grid.Row="1"
+                           Text="{Binding Errors}"
+                           FontAttributes="Bold" 
+                           TextColor="White"
+                           VerticalOptions="Center"/>
+                </Grid>
+            </Border>
+
+            <Button  CornerRadius="10" 
+                     Text="Simular" 
+                     TextColor="Black"
+                     FontAttributes="Bold"
+                     Clicked="NewSumulationClicked"/>
+
+        </StackLayout>
+    </Grid>
+</ContentPage>
